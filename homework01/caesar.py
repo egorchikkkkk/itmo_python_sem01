@@ -47,8 +47,23 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-    plaintext = ""
-    # PUT YOUR CODE HERE
+    # создаем массив с символами шифруемого сообщения
+    plaintext = [i for i in ciphertext]
+    # перебираем все символы
+    for i in range(len(ciphertext)):
+        char = ciphertext[i]
+        # проверяем является ли символ буквой,
+        # и не выходит ли за пределы алфавита сл. через shift буква
+        if chr(ord("a") + shift) <= char.lower() <= "z":
+            plaintext[i] = chr(ord(ciphertext[i]) - shift)
+        # в противном случае, если символ буква, его сдвиг выйдет за пределы алфавита,
+        # поэтому сдвигаем вперед на длину алфавита и отнимаем сдвиг
+        elif char.isalpha():
+            plaintext[i] = chr(ord(ciphertext[i]) + 26 - shift)
+
+    # объединяем массив в строку
+    plaintext = "".join(plaintext)
+
     return plaintext
 
 
