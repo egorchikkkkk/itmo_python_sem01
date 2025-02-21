@@ -46,6 +46,28 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
     'ATTACKATDAWN'
     """
-    plaintext = ""
-    # PUT YOUR CODE HERE
+    plaintext = [c for c in ciphertext]
+
+    if len(keyword) < len(ciphertext):
+        # повторяем ключ, чтобы его длина стала больше, чем у шифруемого слова,
+        # ограничиваем его на длину шифруемого слова
+        keyword = (keyword * (len(ciphertext) // len(keyword) + 1))[:len(ciphertext)]
+
+    for i in range(len(ciphertext)):
+        char = ciphertext[i]
+        # находим сдвиг
+        diff = ord(char) - ord(keyword[i])
+        if char.isalpha() and char.upper() == char:
+            if diff >= 0:
+                plaintext[i] = chr(diff + ord("A"))
+            else:
+                plaintext[i] = chr(diff + 26 + ord("A"))
+        elif char.isalpha():
+            if diff >= 0:
+                plaintext[i] = chr(diff + ord("a"))
+            else:
+                plaintext[i] = chr(diff + 26 + ord("a"))
+
+    plaintext = "".join(plaintext)
+
     return plaintext
